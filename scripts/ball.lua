@@ -7,10 +7,10 @@ local ball = {}
 function ball.new()
     local b = {
         position = vec2.new(480, 270);
-        xSpeed = math.random(-1, 1);
-        ySpeed = math.random(-1, 1);
+        xSpeed = -1;
+        ySpeed = 1;
         img = love.graphics.newImage("images/ball.png");
-        cooldownTimer = 2.5;
+        cooldownTimer = 0;
         trailTimer = 0;
         trails = {};
     }
@@ -43,12 +43,14 @@ function ball.new()
         end
     end
 
-    function b.bounce()
+    function b.bounce(delta)
         local width = b.img:getWidth()
         local height = b.img:getHeight()
         -- Edge bouncing
         if b.position.y < height/2 or b.position.y > 540 - height/2 then
             b.ySpeed = -b.ySpeed
+            b.position.x = b.position.x + b.xSpeed * 100 * SpeedMultiplier * delta
+            b.position.y = b.position.y + b.ySpeed * 100 * SpeedMultiplier * delta
         end
         -- Paddle1 bouncing
         local pWidth = PaddleImg:getWidth()
@@ -58,6 +60,8 @@ function ball.new()
             Paddle1.position.x-pWidth/2, Paddle1.position.y-pHeight/2, pWidth, pHeight
         ) and b.position.x-width < Paddle1.position.x then
             b.xSpeed = -b.xSpeed
+            b.position.x = b.position.x + b.xSpeed * 100 * SpeedMultiplier * delta
+            b.position.y = b.position.y + b.ySpeed * 100 * SpeedMultiplier * delta
         end
         -- Paddle2 bouncing
         if collision(
@@ -65,6 +69,8 @@ function ball.new()
             Paddle2.position.x-pWidth/2, Paddle2.position.y-pHeight/2, pWidth, pHeight
         ) and b.position.x+width/2 < Paddle2.position.x then
             b.xSpeed = -b.xSpeed
+            b.position.x = b.position.x + b.xSpeed * 100 * SpeedMultiplier * delta
+            b.position.y = b.position.y + b.ySpeed * 100 * SpeedMultiplier * delta
         end
     end
 
@@ -88,7 +94,7 @@ function ball.new()
     end
 
     function b.update(delta)
-        b.bounce()
+        b.bounce(delta)
         b.movement(delta)
         b.reset(delta)
         b.createTrail(delta)
