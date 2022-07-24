@@ -41,6 +41,12 @@ function ball.new()
             Paddle1.position.y = 270
             Paddle2.position.y = 270
         end
+        -- Check for win
+        if Paddle1.score > 5 or Paddle2.score > 5 then
+            Ui.finalScores = {Paddle1.score, Paddle2.score}
+            --GameTerminate()
+            GameState = "winner"
+        end
     end
 
     function b.bounce(delta)

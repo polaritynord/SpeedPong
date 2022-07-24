@@ -1,6 +1,7 @@
 local ui = {
     menuSelection = 1;
     menuButtons = {"New Game", "How to Play", "Quit"};
+    finalScores = {0, 0};
 }
 
 function love.keypressed(key)
@@ -12,11 +13,11 @@ function love.keypressed(key)
             ui.menuSelection = ui.menuSelection - 1
         end
     end
-    -- Select selection
+    -- Z key
     if key == "z" then
         if GameState == "menu" then
             ui.selectEvent(ui.menuButtons[ui.menuSelection])
-        elseif GameState == "howtoplay" then
+        elseif GameState == "howtoplay" or GameState == "winner" then
             GameState = "menu"
         end
     end
@@ -75,6 +76,19 @@ function ui.draw()
         -- Score info
         love.graphics.printf("* First player to reach 5 points wins.", 20, 174, 1000, "left")
         -- Return text
+        love.graphics.setNewFont("fonts/DTM-Mono.ttf", 24)
+        love.graphics.setColor(1, 1, 1, 0.5)
+        love.graphics.print("press Z to return to menu.", 0, 516)
+        love.graphics.setColor(1, 1, 1, 1)
+    elseif GameState == "winner" then
+        -- Winner text
+        love.graphics.setNewFont("fonts/DTM-Mono.ttf", 48)
+        if ui.finalScores[1] > ui.finalScores[2] then
+            love.graphics.printf("Blue Won!", 0, 270, 1000, "center")
+        else
+            love.graphics.printf("Red Won!", 0, 270, 1000, "center")
+        end
+        -- Menu text
         love.graphics.setNewFont("fonts/DTM-Mono.ttf", 24)
         love.graphics.setColor(1, 1, 1, 0.5)
         love.graphics.print("press Z to return to menu.", 0, 516)

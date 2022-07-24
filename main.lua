@@ -1,8 +1,8 @@
 local vec2 = require("lib/vec2")
 local paddle = require("scripts/paddle")
 local ball = require("scripts/ball")
-local ui = require("scripts/ui")
 
+Ui = require("scripts/ui")
 function GameSetup()
     PaddleImg = love.graphics.newImage("images/paddle.png")
     Paddle1 = paddle.new()
@@ -26,21 +26,18 @@ end
 function love.load()
     GameState = "menu"
     GameTerminate()
-    GameSetup()
 end
 
 function love.update(delta)
-    if GameState == "game" then
-        Paddle1.update(delta)
-        Paddle2.update(delta)
-        Ball.update(delta)
-        -- Increment speed multiplier
-        if Ball.cooldownTimer > 2.5 then
-            SpeedMultiplier = SpeedMultiplier + 0.045 * delta
-            if SpeedMultiplier > 3.5 then SpeedMultiplier = 3.5 end
-        end
+    if GameState ~= "game" then return end
+    Paddle1.update(delta)
+    Paddle2.update(delta)
+    Ball.update(delta)
+    -- Increment speed multiplier
+    if Ball.cooldownTimer > 2.5 then
+        SpeedMultiplier = SpeedMultiplier + 0.045 * delta
+        if SpeedMultiplier > 3.5 then SpeedMultiplier = 3.5 end
     end
-    --ui.update()
 end
 
 function love.draw()
@@ -61,5 +58,5 @@ function love.draw()
         Ball.draw()
     end
     -- Draw UI
-    ui.draw()
+    Ui.draw()
 end
