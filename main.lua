@@ -1,6 +1,7 @@
 local vec2 = require("lib/vec2")
 local paddle = require("scripts/paddle")
 local ball = require("scripts/ball")
+local ui = require("scripts/ui")
 
 Paddle1 = nil
 Paddle2 = nil
@@ -24,7 +25,9 @@ function love.update(delta)
     Paddle2.update(delta)
     Ball.update(delta)
     -- Increment speed multiplier
-    SpeedMultiplier = SpeedMultiplier + 0.045 * delta
+    if Ball.cooldownTimer > 2.5 then
+        SpeedMultiplier = SpeedMultiplier + 0.045 * delta
+    end
 end
 
 function love.draw()
@@ -43,12 +46,5 @@ function love.draw()
     love.graphics.setColor(1, 1, 1, 1)
     Ball.draw()
     -- Draw UI
-    love.graphics.setNewFont("fonts/DTM-Mono.ttf", 45)
-    -- Paddle 1
-    love.graphics.printf(tostring(Paddle1.score), 25, 25, 1000, "left")
-    -- Paddle 2
-    love.graphics.printf(tostring(Paddle2.score), -70, 25, 1000, "right")
-    -- Speed multipler
-    love.graphics.setNewFont("fonts/DTM-Mono.ttf", 24)
-    love.graphics.printf(string.sub(tostring(SpeedMultiplier), 1, 4) .. "x", -15, 0, 1000, "center")
+    ui.draw()
 end

@@ -31,11 +31,15 @@ function ball.new()
             b.position = vec2.new(480, 270)
             b.cooldownTimer = 0
             Paddle2.score = Paddle2.score + 1
+            Paddle1.position.y = 270
+            Paddle2.position.y = 270
         end
         if b.position.x > 960 - width/2 then
             b.position = vec2.new(480, 270)
             b.cooldownTimer = 0
             Paddle1.score = Paddle1.score + 1
+            Paddle1.position.y = 270
+            Paddle2.position.y = 270
         end
     end
 
@@ -84,8 +88,8 @@ function ball.new()
     end
 
     function b.update(delta)
-        b.movement(delta)
         b.bounce()
+        b.movement(delta)
         b.reset(delta)
         b.createTrail(delta)
         b.updateTrails(delta)
