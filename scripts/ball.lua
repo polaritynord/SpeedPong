@@ -13,6 +13,7 @@ function ball.new()
         cooldownTimer = 0;
         trailTimer = 0;
         trails = {};
+        scoreSound = love.audio.newSource("sounds/score.wav", "static");
     }
 
     function b.createTrail(delta)
@@ -28,6 +29,7 @@ function ball.new()
         b.cooldownTimer = b.cooldownTimer + delta
         local width = b.img:getWidth()
         if b.position.x < width/2 then
+            love.audio.play(b.scoreSound)
             b.position = vec2.new(480, 270)
             b.cooldownTimer = 0
             Paddle2.score = Paddle2.score + 1
@@ -35,6 +37,7 @@ function ball.new()
             Paddle2.position.y = 270
         end
         if b.position.x > 960 - width/2 then
+            love.audio.play(b.scoreSound)
             b.position = vec2.new(480, 270)
             b.cooldownTimer = 0
             Paddle1.score = Paddle1.score + 1
@@ -65,6 +68,7 @@ function ball.new()
             b.position.x-width/2, b.position.y-height/2, width, height,
             Paddle1.position.x-pWidth/2, Paddle1.position.y-pHeight/2, pWidth, pHeight
         ) and b.position.x-width < Paddle1.position.x then
+            love.audio.play(PaddleHitSound)
             b.xSpeed = -b.xSpeed
             b.position.x = b.position.x + b.xSpeed * 100 * SpeedMultiplier * delta
             b.position.y = b.position.y + b.ySpeed * 100 * SpeedMultiplier * delta
@@ -74,6 +78,7 @@ function ball.new()
             b.position.x-width/2, b.position.y-height/2, width, height,
             Paddle2.position.x-pWidth/2, Paddle2.position.y-pHeight/2, pWidth, pHeight
         ) and b.position.x+width/2 < Paddle2.position.x then
+            love.audio.play(PaddleHitSound)
             b.xSpeed = -b.xSpeed
             b.position.x = b.position.x + b.xSpeed * 100 * SpeedMultiplier * delta
             b.position.y = b.position.y + b.ySpeed * 100 * SpeedMultiplier * delta

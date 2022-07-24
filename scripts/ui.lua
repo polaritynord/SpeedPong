@@ -2,6 +2,8 @@ local ui = {
     menuSelection = 1;
     menuButtons = {"New Game", "How to Play", "Quit"};
     finalScores = {0, 0};
+    selectSound = love.audio.newSource("sounds/select.wav", "static");
+    selectEventSound = love.audio.newSource("sounds/selectEvent.wav", "static");
 }
 
 function love.keypressed(key)
@@ -9,8 +11,10 @@ function love.keypressed(key)
     if GameState == "menu" then
         if key == "down" then
             ui.menuSelection = ui.menuSelection + 1
+            love.audio.play(ui.selectSound)
         elseif key == "up" then
             ui.menuSelection = ui.menuSelection - 1
+            love.audio.play(ui.selectSound)
         end
     end
     -- Z key
@@ -30,6 +34,7 @@ function love.keypressed(key)
 end
 
 function ui.selectEvent(selection)
+    love.audio.play(ui.selectEventSound)
     if selection == "New Game" then
         GameTerminate()
         GameState = "game"

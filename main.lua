@@ -3,6 +3,7 @@ local paddle = require("scripts/paddle")
 local ball = require("scripts/ball")
 
 Ui = require("scripts/ui")
+PaddleHitSound = love.audio.newSource("sounds/paddleHit.wav", "static")
 function GameSetup()
     PaddleImg = love.graphics.newImage("images/paddle.png")
     Paddle1 = paddle.new()
