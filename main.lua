@@ -25,7 +25,20 @@ function love.update(delta)
 end
 
 function love.draw()
+    -- Draw background
+    love.graphics.setColor(1, 1, 1, 0.25)
+    for i = 1,12 do
+        love.graphics.rectangle("fill", 480-4.25, (i-1)*45+5, 8.5, 35)
+    end
+    love.graphics.setColor(1, 1, 1, 1)
+    -- Draw paddles & ball
     Paddle1.draw()
     Paddle2.draw()
     Ball.draw()
+    -- Draw scores
+    love.graphics.setNewFont("fonts/DTM-Mono.ttf", 45)
+    -- Paddle 1
+    love.graphics.printf(tostring(Paddle1.score), 25, 25, 1000, "left")
+    -- Paddle 2
+    love.graphics.printf(tostring(Paddle2.score), -50, 25, 1000, "right")
 end

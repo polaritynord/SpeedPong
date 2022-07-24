@@ -6,9 +6,11 @@ function paddle.new()
     local p = {
         position = vec2.new();
         id = 1;
+        score = 0;
     }
 
     function p.movement(delta)
+        p.score = p.score + 1
         -- Determine input keys based on ID
         local inpKey
         if p.id == 1 then
