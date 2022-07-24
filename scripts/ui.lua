@@ -65,7 +65,7 @@ function ui.draw()
         -- Draw "z to begin"
         love.graphics.setNewFont("fonts/DTM-Mono.ttf", 24)
         love.graphics.setColor(1, 1, 1, 0.5)
-        love.graphics.print("press Z to select.", 0, 516)
+        love.graphics.print("Use arrow keys to move, press Z to select.", 0, 516)
         love.graphics.setColor(1, 1, 1, 1)
     elseif GameState == "howtoplay" then
         love.graphics.setNewFont("fonts/DTM-Mono.ttf", 28)
