@@ -24,7 +24,7 @@ function love.update(delta)
     Paddle2.update(delta)
     Ball.update(delta)
     -- Increment speed multiplier
-    SpeedMultiplier = SpeedMultiplier + 0.0125 * delta
+    SpeedMultiplier = SpeedMultiplier + 0.02 * delta
 end
 
 function love.draw()
@@ -35,8 +35,12 @@ function love.draw()
     end
     love.graphics.setColor(1, 1, 1, 1)
     -- Draw paddles & ball
+    love.graphics.setColor(0, 0, 1, 1)
     Paddle1.draw()
+    love.graphics.setColor(1, 0, 0, 1)
     Paddle2.draw()
+
+    love.graphics.setColor(1, 1, 1, 1)
     Ball.draw()
     -- Draw UI
     love.graphics.setNewFont("fonts/DTM-Mono.ttf", 45)
@@ -46,5 +50,5 @@ function love.draw()
     love.graphics.printf(tostring(Paddle2.score), -70, 25, 1000, "right")
     -- Speed multipler
     love.graphics.setNewFont("fonts/DTM-Mono.ttf", 24)
-    love.graphics.print(string.sub(tostring(SpeedMultiplier), 1, 4) .. "x", 5, 515)
+    love.graphics.printf(string.sub(tostring(SpeedMultiplier), 1, 4) .. "x", -15, 0, 1000, "center")
 end
