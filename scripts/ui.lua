@@ -1,18 +1,24 @@
 local ui = {
     menuSelection = 1;
-    menuButtons = {"New Game", "Quit"};
+    menuButtons = {"New Game", "How to Play", "Quit"};
 }
 
 function love.keypressed(key)
-    if GameState ~= "menu" then return end
     -- Move selection
-    if key == "down" then
-        ui.menuSelection = ui.menuSelection + 1
-    elseif key == "up" then
-        ui.menuSelection = ui.menuSelection - 1
+    if GameState == "menu" then
+        if key == "down" then
+            ui.menuSelection = ui.menuSelection + 1
+        elseif key == "up" then
+            ui.menuSelection = ui.menuSelection - 1
+        end
+    end
     -- Select selection
-    elseif key == "return" then
-        ui.selectEvent(ui.menuButtons[ui.menuSelection])
+    if key == "z" then
+        if GameState == "menu" then
+            ui.selectEvent(ui.menuButtons[ui.menuSelection])
+        elseif GameState == "howtoplay" then
+            GameState = "menu"
+        end
     end
 
     if ui.menuSelection > #ui.menuButtons then
@@ -27,6 +33,8 @@ function ui.selectEvent(selection)
         GameTerminate()
         GameState = "game"
         GameSetup()
+    elseif selection == "How to Play" then
+        GameState = "howtoplay"
     elseif selection == "Quit" then
         love.event.quit()
     end
@@ -53,10 +61,23 @@ function ui.draw()
             if ui.menuSelection == i then text = "* " .. v end
             love.graphics.printf(text, -35, (i-1)*45+250, 1000, "center")
         end
-        -- Draw "enter to begin"
+        -- Draw "z to begin"
         love.graphics.setNewFont("fonts/DTM-Mono.ttf", 24)
         love.graphics.setColor(1, 1, 1, 0.5)
-        love.graphics.print("press ENTER to select", 0, 516)
+        love.graphics.print("press Z to select.", 0, 516)
+        love.graphics.setColor(1, 1, 1, 1)
+    elseif GameState == "howtoplay" then
+        love.graphics.setNewFont("fonts/DTM-Mono.ttf", 28)
+        -- Paddle1 info
+        love.graphics.printf("* Use the keys W and S to move to move the blue paddle.", 20, 85, 1000, "left")
+        -- Paddle2 info
+        love.graphics.printf("* Use the keys UP and DOWN to move to move the red paddle.", 20, 120, 960, "left")
+        -- Score info
+        love.graphics.printf("* First player to reach 5 points wins.", 20, 174, 1000, "left")
+        -- Return text
+        love.graphics.setNewFont("fonts/DTM-Mono.ttf", 24)
+        love.graphics.setColor(1, 1, 1, 0.5)
+        love.graphics.print("press Z to return to menu.", 0, 516)
         love.graphics.setColor(1, 1, 1, 1)
     end
 end
