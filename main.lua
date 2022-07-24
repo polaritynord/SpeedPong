@@ -24,7 +24,7 @@ function love.update(delta)
     Paddle2.update(delta)
     Ball.update(delta)
     -- Increment speed multiplier
-    SpeedMultiplier = SpeedMultiplier + 0.02 * delta
+    SpeedMultiplier = SpeedMultiplier + 0.045 * delta
 end
 
 function love.draw()

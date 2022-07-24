@@ -11,8 +11,18 @@ function ball.new()
         ySpeed = math.random(-1, 1);
         img = love.graphics.newImage("images/ball.png");
         cooldownTimer = 2.5;
+        trailTimer = 0;
         trails = {};
     }
+
+    function b.createTrail(delta)
+        b.trailTimer = b.trailTimer + delta
+        if b.trailTimer < 0.3 then
+            return end
+        local newTrail = ballTrail.new()
+        newTrail.position = vec2.new(b.position.x, b.position.y)
+        b.trails[#b.trails+1] = newTrail
+    end
 
     function b.reset(delta)
         b.cooldownTimer = b.cooldownTimer + delta
@@ -61,13 +71,28 @@ function ball.new()
         b.position.y = b.position.y + b.ySpeed * speed * SpeedMultiplier * delta
     end
 
+    function b.updateTrails(delta)
+        for i, v in ipairs(b.trails) do
+            v.update(delta, i)
+        end
+    end
+
+    function b.drawTrails()
+        for _, v in ipairs(b.trails) do
+            v.draw()
+        end
+    end
+
     function b.update(delta)
         b.movement(delta)
         b.bounce()
         b.reset(delta)
+        b.createTrail(delta)
+        b.updateTrails(delta)
     end
 
     function b.draw()
+        b.drawTrails()
         local width = b.img:getWidth()
         local height = b.img:getHeight()
         love.graphics.draw(
