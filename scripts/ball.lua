@@ -1,4 +1,5 @@
 local vec2 = require("lib/vec2")
+local collision = require("lib/collision")
 
 local ball = {}
 
@@ -9,14 +10,31 @@ function ball.new()
         img = love.graphics.newImage("images/ball.png");
     }
 
-    function b.bounce(delta)
+    function b.bounce()
         local width = b.img:getWidth()
         local height = b.img:getHeight()
+        -- Edge bouncing
         if b.position.x < width/2 or b.position.x > 960 - width/2 then
             b.xSpeed = -b.xSpeed
         end
         if b.position.y < height/2 or b.position.y > 540 - height/2 then
             b.ySpeed = -b.ySpeed
+        end
+        -- Paddle1 bouncing
+        local pWidth = PaddleImg:getWidth()
+        local pHeight = PaddleImg:getHeight()
+        if collision(
+            b.position.x-width/2, b.position.y-height/2, width, height,
+            Paddle1.position.x-pWidth/2, Paddle1.position.y-pHeight/2, pWidth, pHeight
+        ) then
+            b.xSpeed = -b.xSpeed
+        end
+        -- Paddle2 bouncing
+        if collision(
+            b.position.x-width/2, b.position.y-height/2, width, height,
+            Paddle2.position.x-pWidth/2, Paddle2.position.y-pHeight/2, pWidth, pHeight
+        ) then
+            b.xSpeed = -b.xSpeed
         end
     end
 
@@ -28,7 +46,7 @@ function ball.new()
 
     function b.update(delta)
         b.movement(delta)
-        b.bounce(delta)
+        b.bounce()
     end
 
     function b.draw()
