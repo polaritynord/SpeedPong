@@ -26,22 +26,24 @@ function ball.new()
         if collision(
             b.position.x-width/2, b.position.y-height/2, width, height,
             Paddle1.position.x-pWidth/2, Paddle1.position.y-pHeight/2, pWidth, pHeight
-        ) then
+        ) and b.position.x-width/2 < Paddle1.position.x then
+            Paddle1.score = Paddle1.score + 1
             b.xSpeed = -b.xSpeed
         end
         -- Paddle2 bouncing
         if collision(
             b.position.x-width/2, b.position.y-height/2, width, height,
             Paddle2.position.x-pWidth/2, Paddle2.position.y-pHeight/2, pWidth, pHeight
-        ) then
+        ) and b.position.x+width/2 < Paddle2.position.x then
+            Paddle2.score = Paddle2.score + 1
             b.xSpeed = -b.xSpeed
         end
     end
 
     function b.movement(delta)
         local speed = 100
-        b.position.x = b.position.x + b.xSpeed * speed * delta
-        b.position.y = b.position.y + b.ySpeed * speed * delta
+        b.position.x = b.position.x + b.xSpeed * speed * SpeedMultiplier * delta
+        b.position.y = b.position.y + b.ySpeed * speed * SpeedMultiplier * delta
     end
 
     function b.update(delta)

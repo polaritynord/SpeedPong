@@ -5,6 +5,7 @@ local ball = require("scripts/ball")
 Paddle1 = nil
 Paddle2 = nil
 Ball = nil
+SpeedMultiplier = 1
 
 function love.load()
     PaddleImg = love.graphics.newImage("images/paddle.png")
@@ -22,6 +23,8 @@ function love.update(delta)
     Paddle1.update(delta)
     Paddle2.update(delta)
     Ball.update(delta)
+    -- Increment speed multiplier
+    SpeedMultiplier = SpeedMultiplier + 0.0125 * delta
 end
 
 function love.draw()
@@ -35,10 +38,13 @@ function love.draw()
     Paddle1.draw()
     Paddle2.draw()
     Ball.draw()
-    -- Draw scores
+    -- Draw UI
     love.graphics.setNewFont("fonts/DTM-Mono.ttf", 45)
     -- Paddle 1
     love.graphics.printf(tostring(Paddle1.score), 25, 25, 1000, "left")
     -- Paddle 2
-    love.graphics.printf(tostring(Paddle2.score), -50, 25, 1000, "right")
+    love.graphics.printf(tostring(Paddle2.score), -70, 25, 1000, "right")
+    -- Speed multipler
+    love.graphics.setNewFont("fonts/DTM-Mono.ttf", 24)
+    love.graphics.print(string.sub(tostring(SpeedMultiplier), 1, 4) .. "x", 5, 515)
 end
